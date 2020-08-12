@@ -32,7 +32,7 @@ body{
   
   /* Demo Stuff End -> */
   
-  /* <- Magic Stuff Start */
+  /* button style */
   
   .btn:hover {
     background-position: right center; /* change the direction of the change here */
@@ -42,4 +42,20 @@ body{
     background-image: linear-gradient(to right, #fbc2eb 0%, #a6c1ee 51%, #fbc2eb 100%);
   }
 
-   
+  .btn-search {
+    background-image: linear-gradient(to right, #43cea2 0%, #185a9d 51%, #43cea2 100%)
+  }
+
+  .btn-showall {
+    background-image: linear-gradient(to right, #000000 0%, #53346D 51%, #000000 100%)
+  }
+
+  .btn-apply {
+    background-image: linear-gradient(to right, #283c86 0%, #45a247 51%, #283c86 100%)
+  }
+
+  .btn-add {
+    background-image: linear-gradient(to right, #000000 0%, #0f9b0f 51%, #000000 100%)
+  }
+
+  
