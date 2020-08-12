@@ -58,4 +58,9 @@ body{
     background-image: linear-gradient(to right, #000000 0%, #0f9b0f 51%, #000000 100%)
   }
 
+
+  .btn-update {
+    background-image: linear-gradient(to right, #642B73 0%, #C6426E 51%, #642B73 100%)
+  }
+
   
