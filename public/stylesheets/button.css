@@ -1,0 +1,45 @@
+/* <- Demo Stuff Start */
+
+body{
+    height: 100%;
+	font-family: Poppins-Regular, sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    width: 20vw;
+    margin: 0 auto;
+    min-height: 30vh;
+  }
+  .btn {
+    flex: auto;
+    margin: 5px;
+    padding: 5px;
+    text-align: auto;
+    text-transform: auto;
+    width: 20;
+    transition: 0.5s;
+    background-size: 50% auto;
+    color: white;
+   /* text-shadow: 0px 0px 10px rgba(0,0,0,0.2);*/
+    box-shadow: 20px #eee;
+    border-radius: 10px;
+   }
+  
+  /* Demo Stuff End -> */
+  
+  /* <- Magic Stuff Start */
+  
+  .btn:hover {
+    background-position: right center; /* change the direction of the change here */
+  }
+  
+  .btn-signout {
+    background-image: linear-gradient(to right, #fbc2eb 0%, #a6c1ee 51%, #fbc2eb 100%);
+  }
+
+   
