@@ -2,15 +2,15 @@
 
 <br>
 <div class="container-fluid">
-    <h2>𝓐𝓭𝓭 𝓟𝓻𝓸𝓳𝓮𝓬𝓽</h2>
+    <h2>𝔼𝕕𝕚𝕥 ℙ𝕣𝕠𝕛𝕖𝕔𝕥</h2>
     <hr>
     <div class="container">
         <form method="POST">
             <div class="form-group row">
                 <label for="inputNameProject" class="col-sm-2 col-form-label">Name</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="nameproject" name="name" placeholder="Project Name"
-                        required>
+                    <input type="text" class="form-control" id="nameproject" name="editname" placeholder="Project Name"
+                        value="<%= project.name %>">
                 </div>
             </div>
 
@@ -19,7 +19,7 @@
                 <div class="col-sm-10">
                     <% result.forEach((item, index) => { %>
                     <div class="form-check">
-                        <input class="form-check-input" id="gridCheck1" type="checkbox" name="member"
+                        <input class="form-check-input" id="gridCheck1" type="checkbox" name="editmember"
                             value="<%= item.userid %>, '<%= item.position %>' ">
                         <label class="form-check-label" for="gridCheck1">
                             <%= item.firstname %> <%= item.lastname %>
@@ -31,7 +31,7 @@
 
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <button type="submit" class="btn btn-dark my-2 my-sm-0">Add</button>
+                    <button type="submit" class="btn btn-dark my-2 my-sm-0">Update</button>
                     <a class="btn btn-dark my-2 my-sm-0" href="/projects" role="button">Back</a>
                 </div>
             </div>

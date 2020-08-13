@@ -17,7 +17,7 @@ module.exports = (db) => {
       let result = data.rows[0]
       if (err) return res.send(err)
       res.render('profile/listProfile', {
-        title: 'Edit Profile',
+        title: '𝔼𝕕𝕚𝕥 ℙ𝕣𝕠𝕗𝕚𝕝𝕖',
         result,
         url : 'profile',
         users

@@ -64,9 +64,78 @@ module.exports = (db) => {
                 })
             })
         } else {
-            req.flash('projectMessage', 'Please Add Members');
             res.redirect('/projects/add')
         }
+    })
+
+
+    // get data edit project
+    router.get('/edit/:projectid', helpers.isLoggedIn, (req, res) => {
+        let projectid = req.params.projectid;
+        let sql = `SELECT members.userid, projects.name, projects.projectid FROM projects LEFT JOIN members ON members.projectid = projects.projectid  WHERE projects.projectid = ${projectid}`;
+        let sql3 = `SELECT * FROM users`; 
+        db.query(sql, (err, data) => {
+            if (err) res.status(500).json(err)
+            let dataProject = data.rows[0];
+            db.query(sql3, (err, data) => {
+                if (err) res.status(500).json(err)
+                res.render('projects/edit', {
+                    url:'projects',
+                    users: req.session.users,
+                    project: dataProject,
+                    result,
+                    dataMembers: data.rows.map(item => item.userid),
+                })
+            })
+
+        })
+    })
+
+
+
+     // save data edit project
+     router.post('/edit/:projectid', helpers.isLoggedIn, (req, res) => {
+        const { editname, editmember } = req.body;
+        let projectid = req.params.projectid;
+        let sql = `UPDATE projects SET name= '${editname}' WHERE projectid = ${projectid}`
+        if (projectid && editname && editmember) {
+            db.query(sql, (err) => {
+                if (err) res.status(500).json(err)
+                let sqlDeleteMember = `DELETE FROM members WHERE projectid = ${projectid}`;
+
+                db.query(sqlDeleteMember, (err) => {
+                    if (err) res.status(500).json(err)
+                    let result = [];
+                    if (typeof editmember == "string") {
+                        result.push(`(${editmember}, ${projectid})`);
+                    } else {
+                        for (let i = 0; i < editmember.length; i++) {
+                            result.push(`(${editmember[i]}, ${projectid})`);
+                        }
+                    }
+                    let sqlUpdate = `INSERT INTO members (userid, role, projectid) VALUES ${result.join(",")}`;
+                    db.query(sqlUpdate, (err) => {
+                        if (err) res.status(500).json(err)
+                        res.redirect('/projects')
+                    })
+                })
+            })
+        } else {
+            req.flash('projectMessage', 'Please add members, members cant empty')
+            res.redirect(`/projects/edit/${projectid}`);
+        }
+    })
+
+
+
+    // to delete project 
+    router.get('/delete/:projectid', helpers.isLoggedIn, (req, res) => {
+        const projectid = req.params.projectid;
+        let sqlDeleteProject = `DELETE FROM projects WHERE projectid=${projectid}`;
+        db.query(sqlDeleteProject, (err) => {
+            if (err) res.status(500).json(err)
+            res.redirect('/projects');
+        })
     })
 
 
