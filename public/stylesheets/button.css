@@ -63,4 +63,8 @@ body{
     background-image: linear-gradient(to right, #642B73 0%, #C6426E 51%, #642B73 100%)
   }
 
+  .btn-save {
+    background-image: linear-gradient(to right, #E55D87 0%, #5FC3E4 51%, #E55D87 100%)
+  }
+
   

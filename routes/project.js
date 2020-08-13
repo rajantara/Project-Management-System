@@ -18,7 +18,6 @@ module.exports = (db) => {
     
 
 
-
     //get users name in project/add
     router.get('/add', helpers.isLoggedIn,(req, res) => {     
             res.render('projects/add', {
