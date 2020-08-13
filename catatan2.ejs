@@ -4,6 +4,12 @@
 <div class="container-fluid">
     <h2>Add Project</h2>
     <hr>
+    <% if (projectMessage.length > 0) {%>
+    <div class="alert alert-danger" role="alert">
+        <%= projectMessage %>
+    </div>
+    <% } %>
+
     <div class="container">
         <form method="POST">
             <div class="form-group row">

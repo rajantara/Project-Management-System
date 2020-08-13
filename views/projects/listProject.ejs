@@ -11,47 +11,47 @@
   <!-- formulir -->
   <form>
     <br>
-    <h2>Projects</h2>
+    <h2>𝕡𝕣𝕠𝕛𝕖𝕔𝕥𝕤</h2>
     <hr>
     <div class="container-fluid">
-      <h3>Filters</h3>
-    <div class="form-group row">
-      <label for="inputID" class="col-sm-2 col-form-label">
-        <input type="checkbox" id="inputID" name="cid"> ID</label>
+      <h3>Fᵢₗₜₑᵣₛ</h3>
+      <div class="form-group row">
+        <label for="inputID" class="col-sm-2 col-form-label">
+          <input type="checkbox" id="inputID" name="cid"> ID</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" name='idproject' placeholder="ID">
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputName" class="col-sm-2 col-form-label">
-        <input type="checkbox" id="inputName" name="cname"> Name</label>
+      <div class="form-group row">
+        <label for="inputName" class="col-sm-2 col-form-label">
+          <input type="checkbox" id="inputName" name="cname"> Name</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" name='namaproject' placeholder="Name">
+        </div>
       </div>
-    </div>
-    <div class=" form-group row">
-      <label for="Member" class="col-sm-2 col-form-label">
-        <input type="checkbox" id="Member" name="cmember"> Member </label>
+      <div class=" form-group row">
+        <label for="Member" class="col-sm-2 col-form-label">
+          <input type="checkbox" id="Member" name="cmember"> Member </label>
         <div class="col-sm-10">
           <select class="custom-select" name="member">
             <option>Choose Member</option>
           </select>
         </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-sm-10">
-        <button type="submit" class=" btn btn-search">Search</button>
-        <a href="/projects" class="btn btn-showall" type="submit">Show All</a>
       </div>
-    </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class=" btn btn-search">Search</button>
+          <a href="/projects" class="btn btn-showall" type="submit">Show All</a>
+        </div>
+      </div>
   </form>
 
   <div class="container-fluid">
     <form method="POST" action="/projects/option">
-      <h3>Options</h3>
+      <h3>𝓞𝓹𝓽𝓲𝓸𝓷𝓼</h3>
       <hr>
       <div class="form-group row">
-        <div class="col-sm-2" style=>Columns</div>
+        <div class="col-sm-2" style=>🅲🅾🅻🆄🅼🅽🆂</div>
         <div class="col-sm-2">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" id="id" name="checkid" value="true">
@@ -93,26 +93,26 @@
     <div class="">
       <br>
       <table class="table table-striped">
-        <thead>
+        <thead class="thead-dark">
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
+            <th scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓘𝓓</th>
+            <th scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓝𝓪𝓶𝓮</th>
             <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col">Action</th>
+            <th scope="col">𝓐𝓬𝓽𝓲𝓸𝓷</th>
           </tr>
         </thead>
         <tbody>
           <!--data foreach sangat penting karena untuk merender data dari data json-->
+          <% result.forEach(item => { %>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><%= item.projectid %></td>
+            <td><%= item.name %></td>
             <td></td>
             <td><a href="/edit"><button type="button" class="btn btn-success">Edit</button></a>
               <a href="/delete"><button type="button" class="btn btn-danger"
                   onclick="return confirm('are you sure want to delete this?');">Delete</button></a></td>
           </tr>
+          <% }) %>
         <tbody>
         </tbody>
       </table>
@@ -136,7 +136,7 @@
 
   </div>
 
-  
+
 </div>
 
 <%- include("../partials/footer") %>
