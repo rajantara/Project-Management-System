@@ -208,5 +208,26 @@ module.exports = (db) => {
         })
     })
 
+
+    //get page project/ overview
+
+    router.get('/overview/:projectid', helpers.isLoggedIn, (req, res) => {
+        const { projectid } = req.params;
+        let sql = `SELECT * FROM projects WHERE projectid=${projectid}`;
+        db.query(sql, (err, getData) => {
+            if (err) res.status(500).json(err)
+            res.render('projects/overview', {
+                users: req.session.users,
+                title : 'Dasboard Overview',
+                result: getData.rows[0],
+            })
+        })
+
+    })
+
+
+
+
+
     return router;
 }    
