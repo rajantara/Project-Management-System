@@ -9,12 +9,13 @@
 
 
   <!-- formulir -->
-  <form>
-    <br>
-    <h2>ℙ𝕣𝕠𝕛𝕖𝕔𝕥𝕤</h2>
-    <hr>
-    <div class="container-fluid">
-      <h3>Fᵢₗₜₑᵣₛ</h3>
+
+  <br>
+  <h2>ℙ𝕣𝕠𝕛𝕖𝕔𝕥𝕤</h2>
+  <hr>
+  <div class="container-fluid">
+    <h3>Fᵢₗₜₑᵣₛ</h3>
+    <form id="form-filter" method="GET">
       <div class="form-group row">
         <label for="inputID" class="col-sm-2 col-form-label">
           <input type="checkbox" id="inputID" name="cid"> ID</label>
@@ -24,116 +25,133 @@
       </div>
       <div class="form-group row">
         <label for="inputName" class="col-sm-2 col-form-label">
-          <input type="checkbox" id="inputName" name="cname"> Name</label>
+          <input type="checkbox" id="inputName" name="cnama"> Name</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" name='namaproject' placeholder="Name">
         </div>
       </div>
-      <div class=" form-group row">
+      <div class="form-group row">
         <label for="Member" class="col-sm-2 col-form-label">
-          <input type="checkbox" id="Member" name="cmember"> Member </label>
+            <input type="checkbox" id="Member" name="cmember"> Member </label>
         <div class="col-sm-10">
-          <select class="custom-select" name="member">
-            <option>Choose Member</option>
-          </select>
+            <select class="custom-select" name="member">
+                <option value="">Choose Member</option>
+                <% users.forEach((item, index) => { %>
+                <option value="<%= item.userid %>"><%= item.fullname %>
+                </option>
+                <% }) %>
+            </select>
         </div>
-      </div>
+    </div>
       <div class="form-group row">
         <div class="col-sm-10">
           <button type="submit" class=" btn btn-search">Search</button>
           <a href="/projects" class="btn btn-showall" type="submit">Show All</a>
         </div>
       </div>
-  </form>
-
-  <div class="container-fluid">
-    <form method="POST" action="/projects/option">
-      <h3>𝓞𝓹𝓽𝓲𝓸𝓷𝓼</h3>
-      <hr>
-      <div class="form-group row">
-        <div class="col-sm-2" style=>🅲🅾🅻🆄🅼🅽🆂</div>
-        <div class="col-sm-2">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="id" name="checkid" value="true">
-            <label class="form-check-label" for="cid">
-              ID
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-2">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="cname" name="checkname" value="true">
-            <label class="form-check-label" for="cname">
-              Name
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-2">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="cmember" name="checkmember" value="true">
-            <label class="form-check-label" for="cmember">
-              Member
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-2">
-          <button class="btn btn-apply" type="submit">Apply Options</button>
-        </div>
-      </div>
     </form>
-  </div>
-
-  <!-- table columns -->
-
-  <div class="container-fluid">
-    <div class="">
-      <br>
-      <table class="table table-striped">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓘𝓓</th>
-            <th scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓝𝓪𝓶𝓮</th>
-            <th scope="col"></th>
-            <th scope="col">𝓐𝓬𝓽𝓲𝓸𝓷</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!--data foreach sangat penting karena untuk merender data dari data json-->
-          <% result.forEach(item => { %>
-          <tr>
-            <td><%= item.projectid %></td>
-            <td><%= item.name %></td>
-            <td></td>
-            <td><a href="/projects/edit/<%= item.projectid %>"><button type="button" class="btn btn-success">Edit</button></a>  
-              <a class="btn btn-danger my-2 my-sm-0 delete"
-                onclick="return confirm('Are you sure you want to delete this item?');"
-                href="/projects/delete/<%= item.projectid %>">Delete</a>       
-          </tr>
-          <% }) %>
-        <tbody>
-        </tbody>
-      </table>
-      <br />
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item disabled">
-            <a class="page-link" href="/" tabindex="-1" aria-disabled="true">Previous</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="/">1</a></li>
-          <li class="page-item"><a class="page-link" href="/">2</a></li>
-          <li class="page-item"><a class="page-link" href="/">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="/">Next</a>
-          </li>
-        </ul>
-      </nav>
-      <a href="projects/add" class="btn btn-add">Add Project</a>
-
+    <!-- options -->
+    <div class="container-fluid">
+      <form method="POST" action="/projects/option">
+        <h3>𝓞𝓹𝓽𝓲𝓸𝓷𝓼</h3>
+        <hr>
+        <div class="form-group row">
+          <div class="col-sm-2" style=>🅲🅾🅻🆄🅼🅽🆂</div>
+          <div class="col-sm-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="id" name="checkid" value="true">
+              <label class="form-check-label" for="cid">
+                ID
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="cname" name="checkname" value="true">
+              <label class="form-check-label" for="cname">
+                Name
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="cmember" name="checkmember" value="true">
+              <label class="form-check-label" for="cmember">
+                Member
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-apply" type="submit">Apply Options</button>
+          </div>
+        </div>
+      </form>
     </div>
 
+    <!-- table columns -->
+
+    <div class="container-fluid">
+      <div class="table">
+        <br>
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓘𝓓</th>
+              <th scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓝𝓪𝓶𝓮</th>
+              <th scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓜𝓮𝓶𝓫𝓮𝓻𝓼</th>
+              <th scope="col">𝓐𝓬𝓽𝓲𝓸𝓷</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!--data foreach sangat penting karena untuk merender data dari data json-->
+            <% result.forEach(item => { %>
+            <tr>
+              <td><%= item.projectid %></td>
+              <td><%= item.name %></td>
+              <td><%= item.nama %></td>
+              <td><a href="/projects/edit/<%= item.projectid %>"><button type="button"
+                    class="btn btn-success">Edit</button></a>
+                <a class="btn btn-danger my-2 my-sm-0 delete"
+                  onclick="return confirm('Are you sure you want to delete this item?');"
+                  href="/projects/delete/<%= item.projectid %>">Delete</a>
+            </tr>
+            <% }) %>
+          <tbody>
+          </tbody>
+        </table>
+        <br />
+        
+        <!-- pagination columns -->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+              <a class="page-link"
+                href="/projects<%= link.replace(`page=${parseInt(page)}`, `page=${(parseInt(page) - 1)}`) %>"
+                aria-label="Previous">
+                Previous
+              </a>
+            </li>
+            <% for (let i = 1; i <= pages; i++) { %>
+            <li class="page-item <%= page == i ? 'active' : '' %>">
+              <a class="page-link" href="/projects<%= link.replace(`page=${parseInt(page)}`, `page=${i}`) %>">
+                <%= i %>
+              </a>
+            </li>
+            <% } %>
+            <li class="page-item <%= page >= pages ? 'disabled' : '' %>">
+              <a class="page-link"
+                href="/projects<%= link.replace(`page=${parseInt(page)}`, `page=${(parseInt(page) + 1)}`) %>"
+                aria-label="Next">
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <a href="/projects/add" class="btn btn-add">Add Project</a>
+      </div>
+    </div>
+
+
   </div>
 
-
-</div>
-
-<%- include("../partials/footer") %>
+  <%- include("../partials/footer") %>

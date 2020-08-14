@@ -34,7 +34,7 @@ module.exports = (db) => {
 
             // start pagenation logic 
             const link = req.url == '/' ? '/?page=1' : req.url;
-            const page = req.query.page || 1;
+            const page = req.query.page|| 1;
             const limit = 3;
             const offset = (page - 1) * limit;
             const total = totalData.rows[0].total

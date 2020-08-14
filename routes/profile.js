@@ -32,8 +32,8 @@ module.exports = (db) => {
     let users =req.session.users;
     bcrypt.hash(password,saltRounds, function (err, hash) {
       if (err) return res.send(err)
-      let sql = `UPDATE users SET password = ${hash}',firstname ='${firstname}',lastname = '${lastname}',postion = '${position}', isfulltime='${job == 'Full Time' ? 'Full Time' : 'Part Time'}' WHERE email = '${users.email}'`;
-      console.log(sql)
+      let sql = `UPDATE users SET password = '${hash}', firstname ='${firstname}',lastname = '${lastname}',position = '${position}', isfulltime='${job == 'Full Time' ? 'Full Time' : 'Part Time'}' WHERE email = '${users.email}'`;
+      console.log('masuk',sql)
       db.query(sql, (err) => {
         if (err) return res.send(err);
         res.redirect('/projects')
