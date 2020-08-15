@@ -1,62 +1,67 @@
-<%- include("../partials/navbar") %>
+<%- include("../partials/sidebar") %>
 
+<!DOCTYPE html>
+<html lang="en">
 
-<!-- Custom styles for this template -->
-<link href="./stylesheets/button.css" rel="stylesheet">
+<body>
 
+    <div class="d-flex" id="wrapper">
 
-<div class="sidebar-container">
-    <div class="sidebar-logo">
-       Page Overview
-    </div>
-    <ul class="sidebar-navigation">
-        <li class="header">Main Menu</li>
-        <li>
-            <a href="#">
-                <i class="fa fa-home" aria-hidden="true"></i> Overview
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fa fa-tachometer" aria-hidden="true"></i> Members
-            </a>
-        </li>
-        <li class="header">Another Menu</li>
-        <li>
-            <a href="#">
-                <i class="fa fa-users" aria-hidden="true"></i> Issues
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fa fa-cog" aria-hidden="true"></i> Social Media
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fa fa-info-circle" aria-hidden="true"></i> Information
-            </a>
-        </li>
-    </ul>
-</div>
-
-<div class="content-container">
-
-    <div class="container-fluid">
-
-        <!-- Main component for a primary marketing message or call to action -->
-        <div class="jumbotron">
-            <h1>Navbar example</h1>
-            <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It
-                includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-            <p>To see the difference between static and fixed top navbars, just scroll.</p>
-            <p>
-                <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs
-                    &raquo;</a>
-            </p>
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading" style="font-size: x-large;">
+                <a class="nav-link" href="/projects" style="color: black;"> Main Menu </div>
+            <div class="list-group list-group-flush">
+                <a href="/projects/overview/<%= result.projectid %>"
+                    class="list-group-item list-group-item-action bg-light">Overview</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">Activity</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">Members</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">Issues</a>
+            </div>
         </div>
+        <!-- /#sidebar-wrapper -->
 
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <h2 class="text-center"> <%= title %> <small class="text-muted">#<%= result.projectid %>
+                        <%= result.name %> </small>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+            </nav>
+
+            <div class="container-fluid">
+                <br>
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Issue Tracking</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Bug
+                                <span class="badge badge-danger badge-pill">makan</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Feature
+                                <span class="badge badge-primary badge-pill">hahah</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Support
+                                <span class="badge badge-success badge-pill">sdfsf</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-</div>
+</body>
+
+</html>
 
 <%- include("../partials/footer") %>
