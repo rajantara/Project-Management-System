@@ -210,24 +210,28 @@ module.exports = (db) => {
 
 
     //get page project/ overview
-
     router.get('/overview/:projectid', helpers.isLoggedIn, (req, res) => {
         const { projectid } = req.params;
         let sql = `SELECT * FROM projects WHERE projectid=${projectid}`;
+        let sql1 = `SELECT users.firstname, users.lastname , members.role FROM members 
+        LEFT JOIN users ON members.userid = users.userid 
+        LEFT JOIN projects ON members.projectid = projects.projectid
+        WHERE members.projectid = ${projectid}`;
         db.query(sql, (err, getData) => {
             if (err) res.status(500).json(err)
-            res.render('projects/overview', {
-                users: req.session.users,
-                title : 'Dasboard Overview',
-                result: getData.rows[0],
+            db.query(sql1, (err, dataUsers) => {
+                if (err) res.status(500).json(err)
+                res.render('projects/overview', {
+                    users: req.session.users,
+                    title : 'Dasboard Overview',
+                    result: getData.rows[0],
+                    result2: dataUsers.rows,
+                })
             })
+          
         })
 
     })
-
-
-
-
 
     return router;
 }    
