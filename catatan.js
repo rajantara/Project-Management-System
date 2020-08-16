@@ -463,6 +463,8 @@ module.exports = (db) => {
         })
     })
 
+
+    
     // landing to edit page at member page
     router.get('/members/:projectid/edit/:memberid', helpers.isLoggedIn, (req, res) => {
         const { projectid, memberid } = req.params

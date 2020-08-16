@@ -286,6 +286,7 @@ module.exports = (db) => {
                 db.query(sqlProject, (err, dataProject) => {
                     if (err) res.status(500).json(err)
                     let user = req.session.users
+                    console.log('cek bang',user)
                     if (err) res.status(500).json(err);
                     res.render('projects/members/listMembers', {
                         users: req.session.users,
@@ -297,7 +298,6 @@ module.exports = (db) => {
                         link,
                         result: dataProject.rows[0],
                         result2: dataMember.rows,
-
                         memberMessage: req.flash('memberMessage')
                     })
 
@@ -312,7 +312,7 @@ module.exports = (db) => {
         const { projectid } = req.params;
         let sqlUpdateOption = `UPDATE users SET optionmembers ='${JSON.stringify(req.body)}' WHERE userid = ${users.userid}`;
         db.query(sqlUpdateOption, err => {
-            if (err) res.status(500).json(e)
+            if (err) res.status(500).json(err)
             res.redirect(`/projects/members/${projectid}`);
 
         })
@@ -341,6 +341,7 @@ module.exports = (db) => {
         })
     })
 
+
     // to post add member at member page
     router.post('/members/:projectid/add', helpers.isLoggedIn, (req, res) => {
         const { projectid } = req.params
@@ -353,9 +354,56 @@ module.exports = (db) => {
     })
 
 
+    // landing to edit page at member page
+    router.get('/members/:projectid/edit/:memberid', helpers.isLoggedIn, (req, res) => {
+        const { projectid, memberid } = req.params
+        let sqlProject = `SELECT * FROM projects WHERE projectid = ${projectid}`
+        db.query(sqlProject, (err, dataProject) => {
+            if (err) res.status(500).json(err)
+            let sqlMember = `SELECT projects.projectid, users.userid , users.firstname, users.lastname, members.role, members.id FROM members
+            LEFT JOIN projects ON members.projectid = projects.projectid 
+            LEFT JOIN users ON members.userid = users.userid 
+            WHERE projects.projectid=${projectid} AND id=${memberid}`;
+            db.query(sqlMember, (err, dataMember) => {
+                if (err) res.status(500).json(err)
+                res.render('projects/members/edit', {
+                    users: req.session.users,
+                    title: 'Dasrboard Edit Members',
+                    url: 'projects',
+                    url2: 'members',
+                    result: dataProject.rows[0],
+                    result2: dataMember.rows[0]
+                })
+            })
+        })
+    })
+
+    // to post edit member page
+    router.post('/members/:projectid/edit/:memberid', helpers.isLoggedIn, (req, res) => {
+        const { projectid, memberid } = req.params
+        const { inputposition } = req.body
+        let sql = `UPDATE members SET role='${inputposition}' WHERE id=${memberid}`;
+        db.query(sql, (err) => {
+            if (err) res.status(500).json(err)
+            res.redirect(`/projects/members/${projectid}`)
+        })
+    })
+
+
+
+    // to post delete member page
+    router.get('/members/:projectid/delete/:memberid', helpers.isLoggedIn, (req, res) => {
+        const { projectid, memberid } = req.params
+        let sql = `DELETE FROM members WHERE projectid=${projectid} AND id=${memberid}`;
+        db.query(sql, (err) => {
+            if (err) res.status(500).json(err)
+            res.redirect(`/projects/members/${projectid}`)
+        })
+    })
 
 
 
 
     return router;
+
 }    
