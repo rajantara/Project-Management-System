@@ -1,25 +1,19 @@
 <%- include("../../partials/sidebar") %>
+<!-- Custom styles for this template -->
+<link href="./stylesheets/button.css" rel="stylesheet">
+
+
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
     <div class="form group row">
-        <% if (memberMessage.length > 0) {%>
-        <div class="alert alert-primary alert-dismissible fade show" role="alert">
-            <%= memberMessage %>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <% } %>
-
         <h2 class="text-center"> <%= title %> <small class="text-muted">#<%= result.projectid %>
                 <%= result.name %></small>
         </h2>
         <hr>
         <br>
-
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
-                    <h3>Filters</h3>
+                    <h3>Fᵢₗₜₑᵣₛ</h3>
                     <hr>
                     <form id="form-filter" method="GET">
                         <input type="hidden" name="page" value="1">
@@ -69,7 +63,7 @@
         <br>
         <br>
         <div class="container-fluid">
-            <div class="card">
+
                 <div class="card-body">
                     <form method="POST" action="">
                         <h3>Options</h3>
@@ -88,7 +82,7 @@
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="checkname" name="checkname"
-                                        value="true" >
+                                        value="true">
                                     <label class="form-check-label" for="cname">
                                         Name
                                     </label>
@@ -130,9 +124,7 @@
                             <td style="text-align: left;"> <%= item.role %>
                             </td>
                             <td style="text-align: left;">
-                                <a class="btn btn-dark my-2 my-sm-0"
-                                    href="/projects/members/"
-                                    role="button">Edit</a>
+                                <a class="btn btn-dark my-2 my-sm-0" href="/projects/members/" role="button">Edit</a>
                                 <a class="btn btn-dark my-2 my-sm-0 delete"
                                     onclick="return confirm('Are you sure you want to delete this item?');"
                                     href="/projects/members/">Delete</a>
@@ -170,7 +162,11 @@
                 <%- include("../../partials/footer") %>
             </div>
         </div>
-       
-    </div>
 
     </div>
+
+</div>
+
+
+<!-- Custom styles for this template -->
+<link href="./stylesheets/button.css" rel="stylesheet">

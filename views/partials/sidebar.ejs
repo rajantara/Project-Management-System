@@ -1,33 +1,37 @@
 <%- include("navbar") %>
+<!-- Custom styles for this template -->
+<link href="./stylesheets/button.css" rel="stylesheet">
+
 <div class="row">
 
     <div class="col-2" id="sidebar-wrapper" style="background-color: #BDC3C7;">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <br>
             <div class="sidebar-heading" style="font-size: x-large;">
-                <a class="nav-link" href="/projects" style="color: black;"> Main Menu </div>
+                <a class="nav-link" href="/projects" style="color: black;"> 
+                    𝕄𝕒𝕚𝕟 𝕄𝕖𝕟𝕦 </div>
             </a>
             <div class="container-fluid">
 
                 <li class="nav-item">
-                    <a class="nav-link list-group-item-action" style=" color:black;"
+                    <a class="btn btn-overview" 
                         href="/projects/overview/<%= result.projectid %>"> Overview </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link list-group-item-action " style=" color:black;"
+                    <a class="btn btn-activity "
                         href="/projects/activity/"> Activity </a>
                 </li>
 
                 <br>
 
                 <li class="nav-item">
-                    <a class="nav-link list-group-item-action" style=" color:black;"
+                    <a class="btn btn-members"
                         href="/projects/members/<%= result.projectid %>"> Members </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link list-group-item-action" style=" color:black;"
+                    <a class="btn btn-issue"
                         href="/projects/issues/"> Issues </a>
                 </li>
 
@@ -35,3 +39,5 @@
         </div>
     </div>
     <!-- /#wrapper -->
+
+

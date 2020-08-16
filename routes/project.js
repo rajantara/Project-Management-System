@@ -223,7 +223,7 @@ module.exports = (db) => {
                 if (err) res.status(500).json(err)
                 res.render('projects/overview', {
                     users: req.session.users,
-                    title: 'Dasboard Overview',
+                    title: '𝓓𝓪𝓼𝓫𝓸𝓪𝓻𝓭 𝓞𝓿𝓮𝓻𝓿𝓲𝓮𝔀',
                     result: getData.rows[0],
                     result2: dataUsers.rows,
                 })
@@ -286,24 +286,69 @@ module.exports = (db) => {
                 db.query(sqlProject, (err, dataProject) => {
                     if (err) res.status(500).json(err)
                     let user = req.session.users
-                    console.log('let doang', user)
-                        if (err) res.status(500).json(err);
-                        res.render('projects/members/listMembers', {
-                            users: req.session.users,
-                            title: 'Dasboard Members',
-                            url: 'projects',
-                            url2: 'members',
-                            pages,
-                            page,
-                            link,
-                            result: dataProject.rows[0],
-                            result2: dataMember.rows,
-                          
-                            memberMessage: req.flash('memberMessage')
-                        })
-                   
+                    if (err) res.status(500).json(err);
+                    res.render('projects/members/listMembers', {
+                        users: req.session.users,
+                        title: '𝓓𝓪𝓼𝓫𝓸𝓪𝓻𝓭 𝓜𝓮𝓶𝓫𝓮𝓻𝓼',
+                        url: 'projects',
+                        url2: 'members',
+                        pages,
+                        page,
+                        link,
+                        result: dataProject.rows[0],
+                        result2: dataMember.rows,
+
+                        memberMessage: req.flash('memberMessage')
+                    })
+
                 })
             })
+        })
+    })
+
+    // post option at member page
+    router.post('/members/:projectid', helpers.isLoggedIn, (req, res) => {
+        let users = req.session.users
+        const { projectid } = req.params;
+        let sqlUpdateOption = `UPDATE users SET optionmembers ='${JSON.stringify(req.body)}' WHERE userid = ${users.userid}`;
+        db.query(sqlUpdateOption, err => {
+            if (err) res.status(500).json(e)
+            res.redirect(`/projects/members/${projectid}`);
+
+        })
+    })
+
+
+    // landing to add member page at member page
+    router.get('/members/:projectid/add', helpers.isLoggedIn, (req, res) => {
+        const { projectid } = req.params;
+        let sqlProject = `SELECT * FROM projects WHERE projectid=${projectid}`;
+        let sqlMember = `SELECT userid, email, CONCAT(firstname,' ',lastname) AS nama FROM users WHERE userid NOT IN (SELECT userid FROM members WHERE projectid=${projectid})`
+        db.query(sqlProject, (err, dataProject) => {
+            if (err) res.status(500).json(err)
+            db.query(sqlMember, (err, dataMember) => {
+                if (err) res.status(500).json(err)
+                res.render('projects/members/add', {
+                    title: '𝓓𝓪𝓼𝓫𝓸𝓪𝓻𝓭 𝓜𝓮𝓶𝓫𝓮𝓻𝓼 𝓐𝓭𝓭',
+                    url: 'projects',
+                    url2: 'members',
+                    result: dataProject.rows[0],
+                    result2: dataMember.rows,
+                    memberMessage: req.flash('memberMessage'),
+                    users: req.session.users
+                })
+            })
+        })
+    })
+
+    // to post add member at member page
+    router.post('/members/:projectid/add', helpers.isLoggedIn, (req, res) => {
+        const { projectid } = req.params
+        const { inputmember, inputposition } = req.body
+        let sql = `INSERT INTO members(userid, role, projectid) VALUES(${inputmember}, '${inputposition}', ${projectid})`
+        db.query(sql, (err) => {
+            if (err) res.status(500).json(err);
+            res.redirect(`/projects/members/${projectid}`)
         })
     })
 
