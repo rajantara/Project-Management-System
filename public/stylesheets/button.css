@@ -140,6 +140,11 @@ margin-left: 0;
 
   /* end sidebar animasi */
 
-  
+.big-container{
+  width: 50%;
+}
+.container-card{
+  width:500px
+}
 
-  
+ 

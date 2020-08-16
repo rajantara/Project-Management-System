@@ -50,7 +50,7 @@ module.exports = (db) => {
             }
 
             getData += ` GROUP BY projects.projectid ORDER BY projectid ASC LIMIT ${limit} OFFSET ${offset}`;
-            console.log('data cari',getData)
+            console.log('data cari', getData)
             //end pagination logic
 
 
@@ -59,19 +59,19 @@ module.exports = (db) => {
                 //let sql = `SELECT * from projects`
                 // db.query(sql, (err, dataProject) => {
                 //     if (err) res.status(500).json(err)
-                    let getUser = `SELECT userid, concat(firstname,' ',lastname) as fullname FROM users;`
-                    db.query(getUser, (err, dataUsers) => {
-                        if (err) res.status(500).json(err)
-                        res.render('projects/listProject', {
-                            users,
-                            url: 'projects',
-                            result: dataProject.rows,
-                            users: dataUsers.rows,
-                            page,
-                            pages,
-                            link,
-                        })
+                let getUser = `SELECT userid, concat(firstname,' ',lastname) as fullname FROM users;`
+                db.query(getUser, (err, dataUsers) => {
+                    if (err) res.status(500).json(err)
+                    res.render('projects/listProject', {
+                        users,
+                        url: 'projects',
+                        result: dataProject.rows,
+                        users: dataUsers.rows,
+                        page,
+                        pages,
+                        link,
                     })
+                })
                 //})
             })
 
@@ -223,15 +223,94 @@ module.exports = (db) => {
                 if (err) res.status(500).json(err)
                 res.render('projects/overview', {
                     users: req.session.users,
-                    title : 'Dasboard Overview',
+                    title: 'Dasboard Overview',
                     result: getData.rows[0],
                     result2: dataUsers.rows,
                 })
             })
-          
+
         })
 
     })
+
+
+
+    // *** member page *** //
+
+    // to landing member page
+    router.get('/members/:projectid', helpers.isLoggedIn, (req, res) => {
+        const { projectid } = req.params;
+        const { cid, cnama, cposition, id, nama, position } = req.query;
+        let sql = `SELECT COUNT(member) as total  FROM (SELECT members.userid FROM members JOIN users ON members.userid = users.userid WHERE members.projectid = ${projectid} `;
+        // start filter logic
+        result = [];
+
+        if (cid && id) {
+            result.push(`members.id=${id}`)
+        }
+        if (cnama && nama) {
+            result.push(`CONCAT(users.firstname,' ',users.lastname) LIKE '%${nama}%'`)
+        }
+        if (cposition && position) {
+            result.push(`members.role = '${position}'`)
+        }
+        if (result.length > 0) {
+            sql += ` AND ${result.join(' AND ')}`
+        }
+        sql += `) AS member`;
+        // end filter logic
+        db.query(sql, (err, totalData) => {
+            if (err) res.status(500).json(err)
+
+            // start pagenation members logic
+            const link = (req.url == `/members/${projectid}`) ? `/members/${projectid}/?page=1` : req.url;
+            const page = req.query.page || 1;
+            const limit = 3;
+            const offset = (page - 1) * limit;
+            const total = totalData.rows[0].total
+            const pages = Math.ceil(total / limit);
+            let sqlMember = `SELECT users.userid, projects.name , projects.projectid, members.id, members.role, CONCAT(users.firstname,' ',users.lastname) AS nama FROM members 
+            LEFT JOIN projects ON projects.projectid = members.projectid 
+            LEFT JOIN users ON users.userid = members.userid WHERE members.projectid = ${projectid}`
+
+            if (result.length > 0) {
+                sqlMember += ` AND ${result.join(' AND ')}`
+            }
+            sqlMember += ` ORDER BY members.id ASC`
+            sqlMember += ` LIMIT ${limit} OFFSET ${offset}`;
+            // end pagenation members logic
+
+            db.query(sqlMember, (err, dataMember) => {
+                if (err) res.status(500).json(err)
+                let sqlProject = `SELECT * FROM projects WHERE projectid = ${projectid}`;
+                db.query(sqlProject, (err, dataProject) => {
+                    if (err) res.status(500).json(err)
+                    let user = req.session.users
+                    console.log('let doang', user)
+                        if (err) res.status(500).json(err);
+                        res.render('projects/members/listMembers', {
+                            users: req.session.users,
+                            title: 'Dasboard Members',
+                            url: 'projects',
+                            url2: 'members',
+                            pages,
+                            page,
+                            link,
+                            result: dataProject.rows[0],
+                            result2: dataMember.rows,
+                          
+                            memberMessage: req.flash('memberMessage')
+                        })
+                   
+                })
+            })
+        })
+    })
+
+
+
+
+
 
     return router;
 }    

@@ -1,81 +1,56 @@
 <%- include("../partials/sidebar") %>
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <div class="form group row">
+        <div class="chartjs-size-monitor-expand"
+            style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+            <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+        </div>
+        <div class="chartjs-size-monitor-shrink"
+            style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+            <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+        </div>
+        <br>
+        <h2 class="text-center"> <%= title %> <small class="text-muted">#<%= result.projectid %> <%= result.name %>
+            </small>
+        </h2>
+        <hr>
+        <br>
 
-<!DOCTYPE html>
-<html lang="en">
 
-<body>
-
-    <div class="d-flex" id="wrapper">
-
-        <!-- Sidebar -->
-        <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading" style="font-size: x-large;">
-                <a class="nav-link" href="/projects" style="color: black;"> Main Menu </div>
-            <div class="list-group list-group-flush">
-                <a href="/projects/overview/<%= result.projectid %>"
-                    class="list-group-item list-group-item-action bg-light">Overview</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Activity</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Members</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Issues</a>
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Issue Tracking</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Bug
+                            <span class="badge badge-danger badge-pill"></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Feature
+                            <span class="badge badge-primary badge-pill"></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Support
+                            <span class="badge badge-success badge-pill"></span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <!-- /#sidebar-wrapper -->
-
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-
-            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <h2 class="text-center"> <%= title %> <small class="text-muted">#<%= result.projectid %>
-                        <%= result.name %> </small>
-
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-            </nav>
-
-            <div class="container-fluid">
-                <br>
-                <div class="card">
-                    <div class="card-body">
-                        <h5>Issue Tracking</h5>
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Bug
-                                <span class="badge badge-danger badge-pill">makan</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Feature
-                                <span class="badge badge-primary badge-pill">hahah</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Support
-                                <span class="badge badge-success badge-pill">sdfsf</span>
-                            </li>
-                        </ul>
-                    </div>
+        <br>
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Member</h5>
+                    <ul class="list-group">
+                        <% result2.forEach((item , index) => { %>
+                        <li class="list-group-item" style="font-weight: bold;"> <%= index + 1 %>. <%= item.firstname %> <%= item.lastname %></li>
+                        <% }) %>
+                    </ul>
                 </div>
             </div>
-
-            <br>
-            <div class="container-fluid">
-                <div class="card">
-                    <div class="card-body">
-                        <h5>Member</h5>
-                        <ul class="list-group">
-                            <% result2.forEach((item , index) => { %>
-                            <li class="list-group-item" style="font-weight: bold;"> <%= index + 1 %>. <%= item.firstname %> <%= item.lastname %></li>
-                            <% }) %>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
-</body>
-
-</html>
-
-<%- include("../partials/footer") %>
+</main>
+  
