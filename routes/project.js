@@ -80,8 +80,8 @@ module.exports = (db) => {
 
     // for option table
     router.post("/option", helpers.isLoggedIn, (req, res) => {
-        const user = req.session.users;
-        let sqlUpdateOption = `UPDATE users SET optionprojects = '${JSON.stringify(req.body)}' WHERE userid=${user.userid}`;
+        const users = req.session.users;
+        let sqlUpdateOption = `UPDATE users SET optionprojects = '${JSON.stringify(req.body)}' WHERE userid=${users.userid}`;
         db.query(sqlUpdateOption, (err) => {
             if (err) res.status(500).json(err);
             res.redirect('/projects');
@@ -286,7 +286,7 @@ module.exports = (db) => {
                 db.query(sqlProject, (err, dataProject) => {
                     if (err) res.status(500).json(err)
                     let user = req.session.users
-                    console.log('cek bang',user)
+                    console.log('cek bang', user)
                     if (err) res.status(500).json(err);
                     res.render('projects/members/listMembers', {
                         users: req.session.users,
@@ -402,6 +402,21 @@ module.exports = (db) => {
     })
 
 
+    //get page project/issues
+    router.get('/issues/:projectid', helpers.isLoggedIn, (req, res) => {
+        const { projectid } = req.params;
+        const users = req.session.users;
+        let getProject = `SELECT * FROM projects WHERE projectid = ${projectid}`
+        db.query(getProject, (err, data) => {
+            if (err) res.status(500).json(err)
+            res.render('projects/issues/listIssues', {
+                users,
+                result: data.rows[0],
+                title: '𝓓𝓪𝓻𝓼𝓫𝓸𝓪𝓻𝓭 𝓘𝓼𝓼𝓾𝓮𝓼',
+            })
+        })
+
+    })
 
 
     return router;
