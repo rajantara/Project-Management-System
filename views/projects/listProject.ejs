@@ -59,7 +59,8 @@
           <div class="col-sm-2" style=>🅲🅾🅻🆄🅼🅽🆂</div>
           <div class="col-sm-2">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="id" name="checkid" value="true">
+              <input class="form-check-input" type="checkbox" id="id" name="checkid" value="true"
+                <%= option.id ? `checked` : `` %>>
               <label class="form-check-label" for="cid">
                 ID
               </label>
@@ -67,7 +68,8 @@
           </div>
           <div class="col-sm-2">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="cname" name="checkname" value="true">
+              <input class="form-check-input" type="checkbox" id="cname" name="checkname" value="true"
+                <%= option.name ? `checked` : `` %>>
               <label class="form-check-label" for="cname">
                 Name
               </label>
@@ -75,7 +77,8 @@
           </div>
           <div class="col-sm-2">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="cmember" name="checkmember" value="true">
+              <input class="form-check-input" type="checkbox" id="cmember" name="checkmember" value="true"
+                <%= option.member ? `checked` : `` %>>
               <label class="form-check-label" for="cmember">
                 Member
               </label>
@@ -96,9 +99,9 @@
         <table class="table table-striped">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓘𝓓</th>
-              <th scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓝𝓪𝓶𝓮</th>
-              <th scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓜𝓮𝓶𝓫𝓮𝓻𝓼</th>
+              <th  <%= option.id ? `` : `hidden` %> scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓘𝓓</th>
+              <th <%= option.name ? `` : `hidden` %> scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓝𝓪𝓶𝓮</th>
+              <th <%= option.member ? `` : `hidden` %> scope="col">𝓟𝓻𝓸𝓳𝓮𝓬𝓽 𝓜𝓮𝓶𝓫𝓮𝓻𝓼</th>
               <th scope="col">𝓐𝓬𝓽𝓲𝓸𝓷</th>
             </tr>
           </thead>
@@ -106,12 +109,12 @@
             <!--data foreach sangat penting karena untuk merender data dari data json-->
             <% result.forEach(item => { %>
             <tr>
-              <th scope="row" style="text-align: left;">
+              <th scope="row" style="text-align: left;" <%= option.id ? `` : `hidden` %>>
                 <a class="btn btn-nomor" href="/projects/overview/<%= item.projectid %>" role="button">
                   <%= item.projectid %> </a>
               </th>
-              <td><%= item.name %></td>
-              <td><%= item.nama %></td>
+              <td <%= option.name ? `` : `hidden` %>><%=item.name%></td>
+              <td <%= option.member ? `` : `hidden` %>><%=item.nama%></td>
               <td><a href="/projects/edit/<%= item.projectid %>"><button type="button"
                     class="btn btn-success">Edit</button></a>
                 <a class="btn btn-danger my-2 my-sm-0 delete"

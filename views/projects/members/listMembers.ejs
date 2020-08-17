@@ -65,15 +65,15 @@
         <div class="container-fluid">
 
                 <div class="card-body">
-                    <form method="POST" action="">
+                    <form method="POST" action="/projects/members/<%=projectid%>/option">
                         <h3>𝓞𝓹𝓽𝓲𝓸𝓷𝓼</h3>
                         <hr>
                         <div class="form-group row">
                             <div class="col-sm-2" style=>🅲🅾🅻🆄🅼🅽🆂</div>
                             <div class="col-sm-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="checkid" name="checkid"
-                                        value="true">
+                                    <input class="form-check-input" type="checkbox" id="cid" name="checkid"
+                                        value="true"  <%= option.id ? `checked` : `` %>>
                                     <label class="form-check-label" for="cid">
                                         ID
                                     </label>
@@ -82,7 +82,7 @@
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="checkname" name="checkname"
-                                        value="true">
+                                        value="true"  value="true" <%= option.name ? `checked` : `` %>>
                                     <label class="form-check-label" for="cname">
                                         Name
                                     </label>
@@ -90,8 +90,8 @@
                             </div>
                             <div class="col-sm-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="checkposition"
-                                        name="checkmember" value="true">
+                                    <input class="form-check-input" type="checkbox" id="cposition"
+                                    name="checkposition" value="true" <%= option.position ? `checked` : `` %>>
                                     <label class="form-check-label" for="cposition">
                                         Position
                                     </label>
@@ -110,18 +110,18 @@
                     <table class="table">
                         <thead class="" style="background-color: #787878;">
                             <tr>
-                                <th scope="col" style="text-align: left;">ID</th>
-                                <th scope="col" style="text-align: left;">Name</th>
-                                <th scope="col" style="text-align: left;">Position</th>
+                                <th scope="col" style="text-align: left;" <%= option.id ? `` : `hidden` %>>ID</th>
+                                <th scope="col" style="text-align: left;" <%= option.name ? `` : `hidden` %>>Name</th>
+                                <th scope="col" style="text-align: left;" <%= option.position ? `` : `hidden` %>>Position</th>
                                 <th scope="col" style="text-align: left;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% result2.forEach( item => { %>
-                            <td style="text-align: left;"> <%= item.id %> </td>
-                            <td style="text-align: left;"> <%= item.nama %>
+                            <td style="text-align: left;" <%= option.id ? `` : `hidden` %>> <%= item.id %> </td>
+                            <td style="text-align: left;" <%= option.name ? `` : `hidden` %>> <%= item.nama %>
                             </td>
-                            <td style="text-align: left;"> <%= item.role %>
+                            <td style="text-align: left;" <%= option.position ? `` : `hidden` %>> <%= item.role %>
                             </td>
                             <td style="text-align: left;">
                                 <a class="btn btn-success" href="/projects/members/<%= result.projectid %>/edit/<%= item.id %>"
