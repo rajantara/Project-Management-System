@@ -14,8 +14,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link" href="/projects">Projects</a>
-        <a class="nav-link" href="/profile">Profile</a>
+        <li class="nav-item <%= url == 'projects' ? 'active' : '' %>">
+          <a class="nav-link" href="/projects">Project </a>
+        </li>
+        <li class="nav-item <%= url == 'profile' ? 'active' : '' %>">
+          <a class="nav-link" href="/profile">Profile</a>
+        </li>
+
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Users</a>
       </div>
     </div>
@@ -23,5 +28,5 @@
     <form class="form-inline my-2 my-lg-0">
       <a href="/logout" class="btn btn-signout" type="submit">Sign Out</a>
     </form>
-  </nav>  
+  </nav>
 </div>

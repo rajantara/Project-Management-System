@@ -7,7 +7,7 @@ const path = require('path');
 module.exports = (db) => {
     // get page project
     router.get('/', helpers.isLoggedIn, (req, res) => {
-        let user = req.session.users;
+        let user = req.session.user;
         let getData = `SELECT count(id) AS total from (SELECT DISTINCT projects.projectid as id FROM projects LEfT JOIN members ON members.projectid = projects.projectid LEFT JOIN users ON users.userid = members.userid `
         //filter logic
         let result = [];
@@ -34,7 +34,7 @@ module.exports = (db) => {
 
             // start pagenation logic 
             const link = req.url == '/' ? '/?page=1' : req.url;
-            const page = req.query.page|| 1;
+            const page = req.query.page || 1;
             const limit = 3;
             const offset = (page - 1) * limit;
             const total = totalData.rows[0].total
@@ -59,7 +59,7 @@ module.exports = (db) => {
                         if (err) res.status(500).json(err)
                         let option = dataOption.rows[0].optionprojects;
                         res.render('projects/listProject', {
-                            users,
+                            user,
                             title: 'Dasrboard Projects',
                             url: 'projects',
                             page,
@@ -463,8 +463,6 @@ module.exports = (db) => {
         })
     })
 
-
-    
     // landing to edit page at member page
     router.get('/members/:projectid/edit/:memberid', helpers.isLoggedIn, (req, res) => {
         const { projectid, memberid } = req.params

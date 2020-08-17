@@ -100,7 +100,7 @@ module.exports = (db) => {
         res.redirect('/projects')
     })
 
-    
+
     //get users name in project/add
     router.get('/add', helpers.isLoggedIn, (req, res) => {
         const add = `SELECT * FROM users ORDER by userid`;
@@ -363,7 +363,7 @@ module.exports = (db) => {
             })
         })
     })
-    
+
 
     //for columns options
     router.post('/members/:projectid/option', helpers.isLoggedIn, (req, res) => {
@@ -374,6 +374,8 @@ module.exports = (db) => {
         optionMember.position = req.body.checkposition;
         res.redirect(`/projects/members/${projectid}`)
     })
+
+
 
     // landing to add member page at member page
     router.get('/members/:projectid/add', helpers.isLoggedIn, (req, res) => {
@@ -460,6 +462,13 @@ module.exports = (db) => {
 
 
 
+
+
+
+
+    
+
+
     //get page project/issues
     router.get('/issues/:projectid', helpers.isLoggedIn, (req, res) => {
         const { projectid } = req.params;
@@ -482,19 +491,9 @@ module.exports = (db) => {
 
 
 
-    // for option column issues page
-    router.post('/issues/:projectid', helpers.isLoggedIn, (req, res) => {
-        const { projectid } = req.params
-        const users = req.session.users
 
-        let sqlOption = `UPDATE users SET optionissues='${JSON.stringify(req.body)}' WHERE userid=${users.userid}`
-        db.query(sqlOption, err => {
-            if (err) res.status(500).json(err)
-            res.redirect(`/projects/issues/${projectid}`)
-        })
-    })
 
-    //get page project/ Issues / add
+    //get page project/ Issues /ADD
     router.get('/issues/:projectid/add', helpers.isLoggedIn, (req, res) => {
         const { projectid } = req.params;
         let getProject = `SELECT * FROM projects WHERE projectid=${projectid}`;
