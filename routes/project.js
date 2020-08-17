@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var helpers = require('../helpers/util');
+const { title } = require('process');
 // const { json } = require('express');
 
 /* GET home page. */
@@ -416,6 +417,24 @@ module.exports = (db) => {
             })
         })
 
+    })
+
+    //get page project/ Issues / add
+    router.get('/issues/:projectid/add', helpers.isLoggedIn, (req, res) => {
+        const { projectid } = req.params;
+        let getProject = `SELECT * FROM projects WHERE projectid=${projectid}`;
+        db.query(getProject, (err, getData) => {
+            if (err) res.status(500).json(err)
+            res.render('projects/issues/add', {
+                users: req.session.users,
+                title:'𝓓𝓪𝓻𝓼𝓫𝓸𝓪𝓻𝓭 𝓘𝓼𝓼𝓾𝓮𝓼 𝓐𝓭𝓭',
+                title2: '𝓝𝓮𝔀 𝓘𝓼𝓼𝓾𝓮𝓼',
+                url:'projects',
+                url2:'issues',
+                result: getData.rows[0]
+            })
+        })
+        
     })
 
 
