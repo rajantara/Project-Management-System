@@ -8,8 +8,7 @@ var session = require('express-session')
 const { Pool } = require('pg')
 
 
-
-//conect to database
+// //conect to database
 // const pool = new Pool({
 //   user: 'postgres',
 //   host: 'localhost',
@@ -17,6 +16,9 @@ const { Pool } = require('pg')
 //   password: '12345',
 //   port: 5432,
 // })
+// console.log('sukses database')
+
+
 
 const pool = new Pool({
   user: 'ppzuptozolqjvyc',
@@ -25,14 +27,16 @@ const pool = new Pool({
   password: 'fd5837ddf1ae8b90c435df7ba750b0946cae7a4ce8bc253a07b08edfb4e6e82b',
   port: 5432,
 })
-console.log('sukses database')
 
- 
+
+
+
+
 //router page
 var indexRouter = require('./routes/index')(pool);
 var profileRouter = require('./routes/profile')(pool);
 var projectRouter = require('./routes/project')(pool);
-var usersRouter = require('./routes/users')(pool);
+var usersRouter = require('./routes/users');
 
 var app = express();
 

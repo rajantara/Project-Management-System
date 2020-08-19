@@ -3,6 +3,7 @@ var router = express.Router();
 const bcrypt = require('bcrypt');
 
 
+
 module.exports = (db) => {
   /* GET home page. */
   router.get('/', function (req, res, next) {
