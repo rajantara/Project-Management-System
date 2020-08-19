@@ -14,6 +14,7 @@ module.exports = (db) => {
     console.log(req.body)
     db.query('SELECT * from users where email = $1', [req.body.email], (err, data) => {
       if (err) {
+        console.log(err)
         req.flash('pesanKesalahan', 'Terjadi Error Hubungi Administrator')
         return res.redirect('/');
       }
