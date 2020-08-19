@@ -3,6 +3,8 @@ var router = express.Router();
 var helpers = require('../helpers/util');
 const { title } = require('process');
 
+
+
 // let for columns options
 let checkOption = {
     id: true,
@@ -90,8 +92,6 @@ module.exports = (db) => {
     });
 
 
-
-
     // localhost:3000/option
     router.post('/option', helpers.isLoggedIn, (req, res) => {
         checkOption.id = req.body.checkid;
@@ -99,7 +99,6 @@ module.exports = (db) => {
         checkOption.member = req.body.checkmember;
         res.redirect('/projects')
     })
-
 
     //get users name in project/add
     router.get('/add', helpers.isLoggedIn, (req, res) => {
@@ -221,6 +220,7 @@ module.exports = (db) => {
         })
     })
 
+
     //get page project/ overview
     router.get('/overview/:projectid', helpers.isLoggedIn, (req, res) => {
         const { projectid } = req.params;
@@ -283,7 +283,74 @@ module.exports = (db) => {
                         supportOpen,
                         supportTotal,
                         featureOpen,
-                        featureTotal
+                        featureTotal,
+                        projectid
+                    })
+                })
+            })
+        })
+    })
+
+
+    //get page project/ actoivity
+    router.get('/activity/:projectid', helpers.isLoggedIn, (req, res) => {
+        const { projectid } = req.params;
+        let sql = `SELECT activityid, (time AT TIME ZONE 'Asia/Jakarta' AT TIME ZONE 'asia/jakarta')::DATE dateactivity, (time AT TIME ZONE 'Asia/Jakarta' AT time zone 'asia/jakarta')::time timeactivity, title, description, CONCAT(users.firstname,' ',users.lastname) AS nama FROM activity 
+                    INNER JOIN users ON activity.author = users.userid
+                    WHERE projectid = ${projectid} ORDER BY activityid DESC`
+        let sql2 = `SELECT DISTINCT members.projectid, projects.name projectname FROM members INNER JOIN projects USING (projectid) INNER JOIN users USING (userid) WHERE projectid=${projectid}`;
+
+        function convertDateTerm(date) {
+            date = moment(date).format('YYYY-MM-DD')
+            const today = moment().format('YYYY-MM-DD')
+            const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
+            if (date == today) {
+                return "Today";
+            } else if (date == yesterday) {
+                return "Yesterday"
+            }
+            return moment(date).format("MMMM Do, YYYY")
+        }
+        db.query(sql, (err, dataActivity) => {
+            if (err) res.status(500).json(err)
+            db.query(sql2, (err, getData) => {
+                if (err) res.status(500).json(err)
+                let result2 = getData.rows;
+                let result3 = dataActivity.rows;
+
+                result3 = result3.map(data => {
+                    data.dateactivity = moment(data.dateactivity).format('YYYY-MM-DD')
+                    data.timeactivity = moment(data.timeactivity, 'HH:mm:ss.SSS').format('HH:mm:ss')
+                    return data
+                })
+
+                let dateonly = result3.map(data => data.dateactivity)
+                dateunix = dateonly.filter((date, index, arr) => {
+                    return arr.indexOf(date) == index
+                })
+
+                let activitydate = dateunix.map(date => {
+                    let dataindate = result3.filter(item => item.dateactivity == date);
+                    return {
+                        date: convertDateTerm(date),
+                        data: dataindate
+                    }
+                })
+
+                projectname = result2.map(data => data.projectname)
+
+                let sql2 = `SELECT * FROM projects WHERE projectid = ${projectid}`;
+                db.query(sql2, (err, data) => {
+                    if (err) res.status(500).json(err)
+                    res.render('projects/activity', {
+                        user: req.session.user,
+                        title: 'Darsboard Activity',
+                        url: 'projects',
+                        url2: 'activity',
+                        result: data.rows[0],
+                        activitydate,
+                        result3,
+                        moment
                     })
                 })
             })
@@ -376,7 +443,6 @@ module.exports = (db) => {
     })
 
 
-
     // landing to add member page at member page
     router.get('/members/:projectid/add', helpers.isLoggedIn, (req, res) => {
         const { projectid } = req.params;
@@ -410,7 +476,6 @@ module.exports = (db) => {
             res.redirect(`/projects/members/${projectid}`)
         })
     })
-
 
     // landing to edit page at member page
     router.get('/members/:projectid/edit/:memberid', helpers.isLoggedIn, (req, res) => {
@@ -457,58 +522,6 @@ module.exports = (db) => {
             if (err) res.status(500).json(err)
             res.redirect(`/projects/members/${projectid}`)
         })
-    })
-
-
-
-
-
-
-
-
-    
-
-
-    //get page project/issues
-    router.get('/issues/:projectid', helpers.isLoggedIn, (req, res) => {
-        const { projectid } = req.params;
-        const users = req.session.users;
-        let getProject = `SELECT * FROM issues WHERE projectid = ${projectid}`
-        console.log(projectid)
-        db.query(getProject, (err, data) => {
-            console.log(data.rows)
-            if (err) res.status(500).json(err)
-            res.render('projects/issues/listIssues', {
-                users,
-                result: data.rows[0],
-                title: '𝓓𝓪𝓻𝓼𝓫𝓸𝓪𝓻𝓭 𝓘𝓼𝓼𝓾𝓮𝓼',
-            })
-        })
-    })
-
-
-
-
-
-
-
-
-    //get page project/ Issues /ADD
-    router.get('/issues/:projectid/add', helpers.isLoggedIn, (req, res) => {
-        const { projectid } = req.params;
-        let getProject = `SELECT * FROM projects WHERE projectid=${projectid}`;
-        db.query(getProject, (err, getData) => {
-            if (err) res.status(500).json(err)
-            res.render('projects/issues/add', {
-                users: req.session.users,
-                title: '𝓓𝓪𝓻𝓼𝓫𝓸𝓪𝓻𝓭 𝓘𝓼𝓼𝓾𝓮𝓼 𝓐𝓭𝓭',
-                title2: '𝓝𝓮𝔀 𝓘𝓼𝓼𝓾𝓮𝓼',
-                url: 'projects',
-                url2: 'issues',
-                result: getData.rows[0]
-            })
-        })
-
     })
 
 

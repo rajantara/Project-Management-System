@@ -10,11 +10,19 @@ const { Pool } = require('pg')
 
 
 //conect to database
+// const pool = new Pool({
+//   user: 'postgres',
+//   host: 'localhost',
+//   database: 'pmsr',
+//   password: '12345',
+//   port: 5432,
+// })
+
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'pmsr',
-  password: '12345',
+  user: 'ppzuptozolqjvyc',
+  host: 'ec2-35-175-155-248.compute-1.amazonaws.com',
+  database: 'd63k53oo43iaup',
+  password: 'fd5837ddf1ae8b90c435df7ba750b0946cae7a4ce8bc253a07b08edfb4e6e82b',
   port: 5432,
 })
 console.log('sukses database')
@@ -24,7 +32,7 @@ console.log('sukses database')
 var indexRouter = require('./routes/index')(pool);
 var profileRouter = require('./routes/profile')(pool);
 var projectRouter = require('./routes/project')(pool);
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/users')(pool);
 
 var app = express();
 
