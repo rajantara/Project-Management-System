@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var flash = require('connect-flash');
-var session = require('express-session')
+var session = require('express-session');
 const { Pool } = require('pg')
 
 
@@ -21,7 +21,7 @@ const { Pool } = require('pg')
 
 
 const pool = new Pool({
-  user: 'ppzuptozolqjvyc',
+  user: 'pzuptozolqjvyc',
   host: 'ec2-35-175-155-248.compute-1.amazonaws.com',
   database: 'd63k53oo43iaup',
   password: 'fd5837ddf1ae8b90c435df7ba750b0946cae7a4ce8bc253a07b08edfb4e6e82b',
