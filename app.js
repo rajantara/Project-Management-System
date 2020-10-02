@@ -8,25 +8,26 @@ var session = require('express-session');
 const { Pool } = require('pg')
 
 
-// //conect to database
-// const pool = new Pool({
-//   user: 'postgres',
-//   host: 'localhost',
-//   database: 'pmsr',
-//   password: '12345',
-//   port: 5432,
-// })
-// console.log('sukses database')
-
-
-
+//conect to database
 const pool = new Pool({
-  user: 'pzuptozolqjvyc',
-  host: 'ec2-35-175-155-248.compute-1.amazonaws.com',
-  database: 'd63k53oo43iaup',
-  password: 'fd5837ddf1ae8b90c435df7ba750b0946cae7a4ce8bc253a07b08edfb4e6e82b',
+  user: 'postgres',
+  host: 'localhost',
+  database: 'pmsr',
+  password: '12345',
   port: 5432,
 })
+console.log('sukses database')
+
+
+//ini project yang ada di github
+
+// const pool = new Pool({
+//   user: 'pzuptozolqjvyc',
+//   host: 'ec2-35-175-155-248.compute-1.amazonaws.com',
+//   database: 'd63k53oo43iaup',
+//   password: 'fd5837ddf1ae8b90c435df7ba750b0946cae7a4ce8bc253a07b08edfb4e6e82b',
+//   port: 5432,
+// })
 
 
 
