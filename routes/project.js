@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var helpers = require('../helpers/util');
+const moment = require('moment');
 const { title } = require('process');
 
 
@@ -524,6 +525,96 @@ module.exports = (db) => {
         })
     })
 
+
+
+    //get page project/ Issuess
+    router.get('/issues/:projectid', helpers.isLoggedIn, (req, res) => {
+        const { projectid } = req.params;
+        const user = req.session.user;
+        const { cissues, csubject, ctracker, issues, subject, tracker } = req.query
+        let sql = `SELECT COUNT(*) AS total FROM issues WHERE projectid=${projectid}`;
+        // start filter logic
+        let result = []
+    
+        if (cissues && issues) {
+            result.push(`issues.issueid = ${issues}`)
+        }
+        if (csubject && subject) {
+            result.push(`issues.subject ILIKE '%${subject}%'`)
+        }
+        if (ctracker && tracker) {
+            result.push(`issues.tracker = '${tracker}'`)
+        }
+        if (result.length > 0) {
+            sql += ` AND ${result.join(' AND ')}`
+        }
+    
+        // end filter logic
+        db.query(sql, (err, totalData) => {
+            if (err) res.status(500).json(err)
+    
+            // start pagenation members logic
+            const link = (req.url == `/issues/${projectid}`) ? `/issues/${projectid}/?page=1` : req.url;
+            const page = req.query.page || 1;
+            const limit = 3;
+            const offset = (page - 1) * limit;
+            const total = totalData.rows[0].total
+            const pages = Math.ceil(total / limit);
+            let getIssues = `SELECT users.userid, CONCAT(users.firstname,' ',users.lastname) fullname, issues.issueid, issues.projectid, issues.tracker, issues.subject, 
+            issues.description, issues.priority, issues.assignee, issues.startdate, issues.duedate, issues.estimatedate, issues.done, issues.files, 
+            issues.spentime, issues.targetversion, issues.author, CONCAT(u2.firstname, ' ', u2.lastname) author, issues.createdate, issues.updatedate, issues.parentask, i2.subject issuename 
+            FROM issues LEFT JOIN users ON issues.assignee=users.userid 
+            LEFT JOIN users u2 ON issues.author=u2.userid 
+            LEFT JOIN issues i2 ON issues.parentask = i2.issueid WHERE issues.projectid = ${projectid}`
+    
+            if (result.length > 0) {
+                getIssues += ` AND ${result.join(' AND ')}`
+            }
+    
+            getIssues += ` ORDER BY issueid ASC`
+            getIssues += ` LIMIT ${limit} OFFSET ${offset}`
+            // end pagenation members logic
+            db.query(getIssues, (err, dataIssues) => {
+                if (err) res.status(500).json(err)
+                let result2 = dataIssues.rows.map(item => {
+                    item.startdate = moment(item.startdate).format('LL')
+                    item.duedate = moment(item.duedate).format('LL')
+                    item.createdate = moment(item.createdate).format('LL')
+                    return item;
+                });
+                let getProject = `SELECT * FROM projects WHERE projectid = ${projectid}`
+                db.query(getProject, (err, data) => {
+                    if (err) res.status(500).json(err)
+                    let issues = `SELECT * FROM issues WHERE projectid = ${projectid} ORDER BY issueid ASC`;
+                    db.query(issues, (err, issuesData) => {
+                        if (err) res.status(500).json(err)
+                        let result3 = issuesData.rows[0]
+                        //let sqlOption = `SELECT optionissues FROM users WHERE userid=${user.userid}`;
+                        // db.query(sqlOption, (err, optionissue) => {
+                        //     if (err) res.status(500).json(err);
+                        //     let option = optionissue.rows[0].optionissues;
+    
+                            res.render('projects/issues/listIssues', {
+                                user,
+                                title: 'Darsboard Issues',
+                                url: 'projects',
+                                url2: 'issues',
+                                result: data.rows[0],
+                                result2,
+                                moment,
+                                link,
+                                pages,
+                                page,
+                                memberMessage: req.flash('memberMessage'),
+                                result3,
+                                //option
+                            })
+                        //})
+                    })
+                })
+            })
+        })
+    })
 
     return router;
 

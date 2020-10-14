@@ -81,28 +81,28 @@
                         <div class="col-sm-2">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="cid" name="checkid" value="true"
-                                    <%= option.issueid ? `checked` : `` %>>
+                                    >
                                 <label class="form-check-label" for="cid">
                                     ID
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="cposition" name="checktracker"
-                                    value="true" <%= option.tracker ? `checked` : `` %>>
+                                    value="true">
                                 <label class="form-check-label" for="ctracker">
                                     Tracker
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="cname" name="checksubject"
-                                    value="true" <%= option.subject ? `checked` : `` %>>
+                                    value="true" >
                                 <label class="form-check-label" for="csubject">
                                     Subject
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="cdescription"
-                                    name="checkdescription" value="true" <%= option.description ? `checked` : `` %>>
+                                    name="checkdescription" value="true">
                                 <label class="form-check-label" for="cdescription">
                                     Description
                                 </label>
@@ -131,7 +131,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% result.forEach (item => { %>
+                            <% result2.forEach (item => { %>
                             <tr>
                                 <td> <%=item.issueid%> </td>
                                 <td> <%=item.tracker%> </td>
